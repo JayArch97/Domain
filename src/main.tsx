@@ -1,9 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import Projects from "./Pages/Projects.tsx";
 import { BrowserRouter, Routes, Route } from "react-router";
-
+import Projects from "./app/projects/page.tsx";
 import App from "./App.tsx";
 
 createRoot(document.getElementById("root")!).render(
@@ -11,7 +10,6 @@ createRoot(document.getElementById("root")!).render(
     <StrictMode>
       <Routes>
         <Route path="/" element={<App />} />
-
         <Route path="/homepage" element={<Projects />} />
       </Routes>
     </StrictMode>
