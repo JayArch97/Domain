@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Typewriter from "../animations/Typewriter";
 import NeoLandingPage from "../assets/neo-landing-page.png";
+import { NavLink } from "react-router";
 
 //Arbitrary text array
 const textArray: string[] = [
@@ -10,13 +11,31 @@ const textArray: string[] = [
   "Knock, knock, Neo.",
 ];
 
+const footerArray: string[] = [
+  "Julio Quintanilla",
+  "Github @JayArch97",
+  "Medium @j.xcvii",
+  "",
+];
+
 function LandingPage() {
   const [index, setIndex] = useState(0);
+  const [footerIndex, setFooterIndex] = useState(0);
   const text = textArray[index];
+  const footer = footerArray[footerIndex];
   const delayMs = text.length * 100;
 
   useEffect(() => {
-    if (index === textArray.length - 1) return;
+    if (index === textArray.length - 1) {
+      if (footerIndex === footerArray.length - 1) return;
+      const nextFooterId = setTimeout(() => {
+        setFooterIndex((i) => (i + 1) % footerArray.length);
+      }, delayMs + 1000);
+
+      return () => {
+        clearTimeout(nextFooterId);
+      };
+    }
     const nextId = setTimeout(() => {
       setIndex((i) => (i + 1) % textArray.length);
     }, delayMs + 1000);
@@ -24,40 +43,36 @@ function LandingPage() {
     return () => {
       clearTimeout(nextId);
     };
-  }, [index]);
+  }, [index, footerIndex]);
 
   return (
     <>
-    <img src={NeoLandingPage} className="fixed top-0 left-0 w-screen h-screen object-cover opacity-10 bg-transparent" />
-      <div className="flex justify-center-safe items-center border-red border-4 w-screen h-screen">
+      <img
+        src={NeoLandingPage}
+        className="fixed top-0 left-0 w-screen h-screen object-cover opacity-10 bg-transparent"
+      />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ">
         <h1
           className="text-3xl justify-self-center align-self-center
          text-green-300"
         >
           <Typewriter key={text} text={text} delay={100} />
         </h1>
+
+        <NavLink
+          to="/homepage"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mt-20 text-xl border-green-300 border-4 px-2.5 py-2.5 rounded-2xl  "
+        >
+          Enter
+        </NavLink>
       </div>
-      <button
-        style={{
-          position: "absolute",
-          marginLeft: "auto",
-          marginRight: "auto",
-          bottom: "100px",
-          left: 0,
-          right: 0,
-          textAlign: "center",
-          cursor: "pointer",
-          border: "2px solid white",
-          padding: "10px 20px",
-          borderRadius: "5px",
-          width: "100px",
-            backgroundColor: "transparent",
-            color: "green",
-            fontSize: "16px",
-        }}
-      >
-        Skip
-      </button>
+      {index === textArray.length - 1 ? (
+        <p className="absolute bottom-10 left-0 right-0 text-center text-3xl text-green-300">
+          <Typewriter key={footer} text={footer} delay={100} />
+        </p>
+      ) : (
+        ""
+      )}
     </>
   );
 }
