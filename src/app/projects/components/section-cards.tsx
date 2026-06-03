@@ -6,7 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import UniverseAnimation from "@/animations/section-cards/Universe";
+import {
+  UniverseAnimation,
+  SphereAnimation,
+} from "@/animations/section-cards/Universe";
 import ChameleonAnimation from "@/animations/section-cards/Chameleon";
 
 export default function ProjectCards() {
@@ -35,7 +38,7 @@ export default function ProjectCards() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ChameleonAnimation />
+          <SphereAnimation />
         </CardContent>
       </Card>
 
